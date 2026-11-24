@@ -68,3 +68,5 @@ with this project. It's also possible to interact with it directly using the CLI
    ```
    $ uv run pytest
    ```
+
+6. 24/11/2026 - To test GitHub Action.
