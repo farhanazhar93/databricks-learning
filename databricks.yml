@@ -4,6 +4,7 @@ bundle:
   name: dab_learning
   uuid: 32a9e77e-1dc3-447b-94eb-9cdee80c3553
 
+# This bundle is intended to be deployed to a Databricks workspace. It contains resources such as notebooks, jobs, and clusters that can be deployed together.
 include:
   - resources/*.yml
 
@@ -11,7 +12,11 @@ include:
 variables:
   catalog:
     description: The catalog to use
-  schema:
+  bronze_schema:
+    description: The schema to use
+  silver_schema:
+    description: The schema to use
+  gold_schema:
     description: The schema to use
 
 targets:
@@ -25,8 +30,11 @@ targets:
     workspace:
       host: https://dbc-f8d97078-8a74.cloud.databricks.com?w=7474645526729790
     variables:
-      catalog: workspace
-      schema: dev
+      catalog: dev
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
+       
   prod:
     mode: production
     workspace:
@@ -34,8 +42,10 @@ targets:
       # We explicitly deploy to /Workspace/Users/mohdfarhanmohdazhar@gmail.com to make sure we only have a single copy.
       root_path: /Workspace/Users/mohdfarhanmohdazhar@gmail.com/.bundle/${bundle.name}/${bundle.target}
     variables:
-      catalog: workspace
-      schema: prod
+      catalog: prod
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
     permissions:
       - user_name: mohdfarhanmohdazhar@gmail.com
         level: CAN_MANAGE

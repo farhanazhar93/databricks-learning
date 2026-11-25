@@ -9,6 +9,11 @@ resources:
 
           spark_python_task:
             python_file: ../src/cust_ingestion.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.bronze_schema}
 
           environment_key: default
 

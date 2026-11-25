@@ -1,21 +1,30 @@
+import argparse
 from pyspark.sql import SparkSession
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--catalog", required=True)
+parser.add_argument("--schema", required=True)
+
+args = parser.parse_args()
+
+catalog = args.catalog
+schema = args.schema
 
 spark = SparkSession.builder.getOrCreate()
 
-# Read CSV from Volume
 df = (
     spark.read
     .option("header", "true")
     .option("inferSchema", "true")
-    .csv("/Volumes/workspace/dev/srcfiles/Customer_Data.csv")
+    .csv(f"/Volumes/{catalog}/landingfiles/srcfiles/Customer_Data.csv")
 )
 
-# Create / Replace Delta Table
 (
     df.write
     .format("delta")
     .mode("overwrite")
-    .saveAsTable("workspace.dev.cust_store")
+    .saveAsTable(f"{catalog}.{schema}.cust_store")
 )
 
-print("Successfully created Delta table: workspace.dev.cust_store")
+print(f"Successfully created Delta table: {catalog}.{schema}.cust_store")
