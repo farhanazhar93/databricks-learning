@@ -5,7 +5,7 @@ resources:
     dab_learning_etl:
       name: dab_learning_etl
       catalog: ${var.catalog}
-      schema: ${var.schema}
+      schema: ${var.bronze_schema}
       serverless: true
       root_path: "../src/dab_learning_etl"
 
