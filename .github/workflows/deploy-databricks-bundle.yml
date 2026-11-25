@@ -1,0 +1,43 @@
+# Update by: Mohd Farhan Mohd Azhar
+# Update date: 2026-11-26
+# Description:  This GitHub Actions workflow deploys the Databricks bundle to the appropriate environment based on the branch that is pushed. 
+#               It uses the Databricks CLI to validate and deploy the bundle.
+
+name: Deploy Databricks Bundle
+
+on:
+  push:
+    branches:
+      - dev
+      - uat
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Validate Bundle
+        run: databricks bundle validate
+
+      - name: Deploy Dev
+        if: github.ref_name == 'dev'
+        run: databricks bundle deploy -t dev
+
+      - name: Deploy UAT
+        if: github.ref_name == 'uat'
+        run: databricks bundle deploy -t uat
+
+      - name: Deploy Prod
+        if: github.ref_name == 'main'
+        run: databricks bundle deploy -t prod
