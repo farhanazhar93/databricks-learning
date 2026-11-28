@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE dev.control.file_registry
+CREATE TABLE IF NOT EXISTS dev.control.file_registry
 (
     -- Surrogate Key
     file_id BIGINT GENERATED ALWAYS AS IDENTITY,
