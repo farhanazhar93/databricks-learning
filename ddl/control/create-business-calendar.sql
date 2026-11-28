@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS dev.control.business_calendar
 (
+    -- Surrogate Key
+    business_calendar_id BIGINT GENERATED ALWAYS AS IDENTITY,
     business_date DATE NOT NULL,
     prev_business_date DATE NOT NULL,
     next_business_date DATE NOT NULL,
